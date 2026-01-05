@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { predictWithModel1 } from "../utils/model1Service";
 import "../styles/ModelTester.css";
 
 export default function Model1Tester() {
@@ -24,40 +25,19 @@ export default function Model1Tester() {
     setPrediction(null);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const result = await predictWithModel1(input);
 
-      const response = await fetch(`${apiUrl}/api/predict/model1`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      setPrediction({
+        score: result.score,
+        confidence: result.confidence,
+        details: {
+          sentiment: result.sentiment,
+          text: result.text,
         },
-        body: JSON.stringify({ text: input }),
+        usingFallback: result.usingFallback,
       });
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      if (data.prediction) {
-        const pred = data.prediction;
-        setPrediction({
-          score: pred.score,
-          confidence: pred.confidence,
-          details: {
-            sentiment: pred.sentiment,
-            text: pred.text,
-          },
-        });
-      } else {
-        setError("Invalid response from API");
-      }
     } catch (err) {
-      setError(
-        err.message ||
-          "Error making prediction. Please check the API connection."
-      );
+      setError(err.message || "Error making prediction. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -75,8 +55,8 @@ export default function Model1Tester() {
         <div className="badge">Model 1</div>
         <h1>Logistic Regression Model</h1>
         <p className="model-description">
-          Baseline sentiment classifier trained on TF-IDF features. Fast and
-          interpretable.
+          Baseline sentiment classifier using TF-IDF feature extraction and
+          logistic regression. Fast and interpretable.
         </p>
       </div>
 
@@ -161,15 +141,21 @@ export default function Model1Tester() {
                     <strong>Algorithm:</strong> Logistic Regression
                   </li>
                   <li>
-                    <strong>Features:</strong> TF-IDF (10,000 dimensions)
+                    <strong>Feature Extraction:</strong> TF-IDF
                   </li>
                   <li>
                     <strong>Training Data:</strong> ~160+ tourism reviews
                   </li>
                   <li>
-                    <strong>Approach:</strong> Traditional ML with text
-                    preprocessing
+                    <strong>Approach:</strong> Classical ML with text
+                    vectorization
                   </li>
+                  {prediction.usingFallback && (
+                    <li style={{ color: "#ff9800" }}>
+                      <strong>⚠ Using fallback:</strong> Keyword-based analysis
+                      (backend unavailable)
+                    </li>
+                  )}
                 </ul>
               </div>
 

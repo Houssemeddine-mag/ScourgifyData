@@ -1,12 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Landing from "./pages/Landing";
 import Model1Tester from "./pages/Model1Tester";
 import Model2Tester from "./pages/Model2Tester";
 import FinalReport from "./pages/FinalReport";
+import { loadModel2 } from "./utils/model2Service";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
+  const [modelsReady, setModelsReady] = useState(false);
+
+  useEffect(() => {
+    // Pre-load Model 2 on app startup
+    const initializeModels = async () => {
+      try {
+        await loadModel2();
+        setModelsReady(true);
+        console.log("✓ Model 2 initialized successfully");
+      } catch (error) {
+        console.warn(
+          "Model 2 could not be pre-loaded. Using fallback predictions:",
+          error
+        );
+        setModelsReady(false);
+      }
+    };
+
+    initializeModels();
+  }, []);
 
   return (
     <div className="app">

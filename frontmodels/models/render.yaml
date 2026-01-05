@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: ScourgifyData-Frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run preview
+    envVars:
+      - key: NODE_ENV
+        value: production
