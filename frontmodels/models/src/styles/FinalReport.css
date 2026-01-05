@@ -1,0 +1,236 @@
+/* Final Report Page Styles */
+.report-container {
+  width: 100%;
+  padding: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.5) 0%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+}
+
+/* Report Header */
+.report-header {
+  padding: 3rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.05) 0%,
+    rgba(124, 58, 237, 0.05) 100%
+  );
+  border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+  text-align: center;
+}
+
+.report-header-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.report-header-content h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.report-header-content p {
+  font-size: 1.1rem;
+  color: #cbd5e1;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.report-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  padding: 0.5rem 1rem;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 20px;
+  color: #00d4ff;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* PDF Viewer Section */
+.report-viewer {
+  padding: 3rem 2rem;
+  min-height: 600px;
+}
+
+.pdf-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.1);
+}
+
+.pdf-container iframe {
+  width: 100%;
+  height: 800px;
+  border: none;
+  display: block;
+}
+
+/* Report Info Section */
+.report-info {
+  padding: 4rem 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.info-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.info-box {
+  padding: 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.05) 0%,
+    rgba(124, 58, 237, 0.05) 100%
+  );
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.info-box:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+}
+
+.info-box h3 {
+  font-size: 1.2rem;
+  color: #00d4ff;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-box li {
+  padding: 0.6rem 0;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+  line-height: 1.6;
+}
+
+.info-box li:last-child {
+  border-bottom: none;
+}
+
+.info-box li:before {
+  content: "✓ ";
+  color: #10b981;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.info-box p {
+  color: #cbd5e1;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+  border-color: #00d4ff;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .report-header-content h1 {
+    font-size: 2rem;
+  }
+
+  .pdf-container iframe {
+    height: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .report-header {
+    padding: 2rem 1rem;
+  }
+
+  .report-header-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .report-header-content p {
+    font-size: 1rem;
+  }
+
+  .report-meta {
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .report-viewer {
+    padding: 2rem 1rem;
+  }
+
+  .pdf-container iframe {
+    height: 400px;
+  }
+
+  .report-info {
+    padding: 2rem 1rem;
+  }
+
+  .info-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .info-box {
+    padding: 1.5rem;
+  }
+
+  .info-box h3 {
+    font-size: 1rem;
+  }
+
+  .meta-item {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

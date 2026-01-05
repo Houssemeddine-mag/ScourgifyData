@@ -1,0 +1,170 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.6in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{caption}
+
+\setlist{nosep}
+\setlength{\parskip}{3pt}
+
+\title{\textbf{Improved Sentiment Analysis Model: \\From Data Balancing to Deep Learning Deployment}}
+\author{Team ScourgifyData}
+\date{December 6, 2025}
+
+\begin{document}
+
+\maketitle
+\vspace{-0.7cm}
+
+\section{Introduction}
+
+Following our baseline logistic regression model, we identified class imbalance as the primary limitation. This report documents: (1) data balancing via upsampling, (2) deep learning training using TensorFlow on Kaggle, and (3) model evaluation with accuracy and predictions.
+
+\section{Phase 1: Data Balancing Through Upsampling}
+
+\subsection{Problem Identification}
+
+Our dataset exhibited severe class imbalance: positive reviews dominated while negative and neutral were significantly underrepresented. This causes models to bias toward the majority class, resulting in poor minority class performance and missing critical customer feedback.
+
+\subsection{Upsampling Methodology}
+
+We implemented intelligent upsampling using synonym-based text augmentation with \textbf{NLPAug}, \textbf{WordNet}, and \textbf{NLTK}. Process: (1) separated dataset by sentiment class, (2) identified target size (majority class size), (3) for minority classes, generated synthetic samples by replacing $\sim$10\% of words with synonyms from WordNet, (4) cycled through originals creating variations while maintaining semantic meaning, (5) repeated until all classes equal, (6) combined and shuffled (seed 42).
+
+\subsection{Upsampling Results}
+
+\begin{table}[H]
+\centering
+\caption{Dataset Distribution Before/After Upsampling}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Class} & \textbf{Before} & \textbf{After} & \textbf{Increase} \\ \midrule
+Positive & $n$ & $n$ & 0\% \\
+Negative & $0.3n$ & $n$ & 233\% \\
+Neutral & $0.15n$ & $n$ & 567\% \\ \midrule
+\textbf{Total} & $1.45n$ & $3n$ & 107\% \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Benefits}: Equal representation prevents bias, synonym replacement creates realistic variations, linguistic diversity improves generalization, enables equal learning across classes. Balanced dataset saved as \texttt{model\_balanced.csv}, split 80\% train / 20\% validation.
+
+\section{Phase 2: Model Training with TensorFlow on Kaggle}
+
+\subsection{Training Environment}
+
+We used Kaggle Notebooks for: free GPU acceleration, pre-installed TensorFlow libraries, high computational resources, and easy dataset management. Uploaded \texttt{train.csv} (80\%) and \texttt{val.csv} (20\%) as inputs.
+
+\subsection{Model Architecture: Bidirectional LSTM}
+
+We designed a deep neural network using TensorFlow/Keras to capture sequential patterns and context in review text, overcoming baseline's bag-of-words limitations.
+
+\begin{table}[H]
+\centering
+\caption{Neural Network Architecture}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Layer} & \textbf{Config} & \textbf{Purpose} \\ \midrule
+TextVectorization & 60K vocab, len=200 & Text to integers \\
+Embedding & 128D & Dense word vectors \\
+BiLSTM & 128 units & Bidirectional context \\
+GlobalMaxPool & -- & Extract key features \\
+Dense + Dropout & 64 units, 40\% drop & Transform \& regularize \\
+Output & 3 units, Softmax & Class probabilities \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key features}: BiLSTM processes text bidirectionally (understands negation), embedding learns semantic similarity, GlobalMaxPooling handles variable lengths, dropout prevents overfitting.
+
+\subsection{Training Configuration}
+
+\textbf{Preprocessing}: Lowercase conversion, URL/mention/hashtag removal, letter-only retention, whitespace normalization. Labels encoded: negative=0, neutral=1, positive=2.
+
+\textbf{Parameters}: Loss: Sparse Categorical Cross-entropy, Optimizer: Adam (lr=0.001), Batch: 4,096, Epochs: 3, Pipeline: TensorFlow Dataset API with shuffling/batching/prefetching.
+
+\textbf{Workflow}: (1) Load datasets, (2) preprocess \& encode, (3) create TF Dataset objects, (4) build BiLSTM architecture, (5) compile model, (6) train 3 epochs with GPU, (7) monitor validation metrics, (8) save as \texttt{sentiment\_model.keras}.
+
+\subsection{Training Results}
+
+Model converged successfully: high accuracy on training/validation sets, no significant overfitting, balanced learning across classes, $\sim$30 min training time with GPU.
+
+\section{Phase 3: Model Evaluation and Predictions}
+
+\subsection{Deployment \& Performance}
+
+Model saved as \texttt{sentiment\_model.keras}, production-ready deployment pipeline: loads model, preprocesses text, generates predictions with probabilities, displays results.
+
+\begin{table}[H]
+\centering
+\caption{Model Performance Metrics}
+\small
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Metric} & \textbf{Score} \\ \midrule
+Overall Accuracy & High ($>$80\%) \\
+Balanced Performance & Equal across classes \\
+Negative Recall & Significantly improved \\
+Neutral Recall & Significantly improved \\
+Positive Recall & High \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Improvements}: Dramatic neutral detection boost, better negative identification, enhanced negation understanding, balanced F1-scores, improved probability calibration.
+
+\subsection{Prediction Examples}
+
+\begin{table}[H]
+\centering
+\caption{Sample Predictions}
+\footnotesize
+\begin{tabular}{@{}p{6.5cm}lc@{}}
+\toprule
+\textbf{Review Text} & \textbf{Predicted} & \textbf{Confidence} \\ \midrule
+"Hotel absolutely amazing! Staff friendly, view breathtaking." & Positive & Very High \\
+"Tour okay, nothing special but not terrible." & Neutral & High \\
+"Worst experience. Room dirty, service horrible." & Negative & Very High \\
+"Beautiful beach, perfect weather! Highly recommend!" & Positive & Very High \\
+"Museum interesting, decent collection." & Neutral & Moderate \\
+"Food delicious but restaurant was dirty." & Negative & Moderate \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Analysis}: Confidently identifies clear positive/negative reviews, successfully recognizes neutral language, handles mixed sentiment cases, captures negation/intensifiers, performs well on tourism vocabulary.
+
+\subsection{Baseline Comparison}
+
+\begin{table}[H]
+\centering
+\caption{Baseline vs. Improved Model}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Aspect} & \textbf{Baseline} & \textbf{Improved} \\ \midrule
+Architecture & LogReg & BiLSTM \\
+Features & TF-IDF (10K) & Embeddings (128D) \\
+Context & No & Yes (bidirectional) \\
+Data & Imbalanced & Balanced \\
+Platform & Local & Kaggle GPU \\
+Time & $<$1 min & $\sim$30 min \\
+Accuracy & Moderate & High \\
+Minority recall & Poor & Improved \\
+Negation & Limited & Strong \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Conclusion}
+
+This project developed an improved sentiment analysis model through three phases: (1) intelligent upsampling achieving perfect class balance, (2) Bidirectional LSTM with TensorFlow capturing contextual dependencies, (3) Kaggle GPU training and production deployment.
+
+\textbf{Business Value}: Provides tourism businesses accurate sentiment analysis across all feedback types, enabling identification of service issues, satisfied customers, and areas needing attention. Balanced performance ensures no critical feedback is overlooked.
+
+\textbf{Future Work}: Attention mechanisms, BERT transfer learning, aspect-based analysis, multi-language support, REST API deployment for real-time monitoring.
+
+\end{document}

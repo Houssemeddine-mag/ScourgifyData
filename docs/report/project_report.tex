@@ -1,0 +1,103 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{caption}
+
+\title{\textbf{Sentiment Analysis of Tourism Reviews: \\EDA and Baseline Model}}
+\author{Team ScourgifyData}
+\date{December 7, 2025}
+
+\begin{document}
+
+\maketitle
+\vspace{-0.3cm}
+
+\section{Introduction and Data Description}
+
+This project performs sentiment analysis on tourism reviews using the Yelp Academic Dataset, classifying reviews into positive, neutral, and negative categories to provide actionable insights for tourism businesses.
+
+\subsection{Dataset Overview}
+
+We work with two Yelp Academic datasets: \textbf{Business Dataset} (150,346 records, 14 features) and \textbf{Reviews Dataset} (7M reviews with text, ratings, and IDs). Our analysis combines structured data (categories, star ratings) with unstructured text data to link sentiment with tourism business characteristics.
+
+\section{Data Exploration and Preprocessing}
+
+\subsection{Methodology}
+
+Our EDA followed a three-stage pipeline:
+
+\textbf{Stage 1: Business Data Cleaning} -- Removed 12 irrelevant features, dropped records with missing categories, eliminated duplicates by \texttt{business\_id}, and filtered for tourism keywords (Hotels, Resorts, Attractions, Tours, Museums, Parks, Beaches, Restaurants).
+
+\textbf{Stage 2: Review Processing} -- Sampled 7M reviews using chunk processing, retained essential columns (\texttt{review\_id}, \texttt{business\_id}, \texttt{stars}, \texttt{text}), removed duplicates and short reviews ($<$5 characters).
+
+\textbf{Stage 3: Integration \& Labeling} -- Merged reviews with tourism businesses via left join, converted stars to sentiment (1-2: negative, 3: neutral, 4-5: positive), removed identifiers post-merge.
+
+\subsection{Quality Assurance}
+
+Data reconciliation included: duplicate verification (zero post-cleaning), missing value checks (none in critical fields), random shuffling (seed 42), and stratified 80-20 train-test split.
+
+\textbf{Text preprocessing}: lowercase conversion, URL removal, punctuation/number stripping, whitespace normalization, TF-IDF vectorization (10,000 features, bigrams, English stop words removed).
+
+\section{Key EDA Findings}
+
+\textbf{Class Distribution}: Positive sentiment dominates (typical for tourism platforms), negative is less common (users prefer strong opinions), neutral exists but is minority. Imbalance is addressed via stratified splitting.
+
+\textbf{Text Characteristics}: Reviews range 20-200 words typically. Length distributions vary by sentiment class. Very short reviews ($<$5 words) were filtered for lacking sentiment information.
+
+\textbf{Tourism Coverage}: Dataset focuses on hospitality (hotels, resorts), dining (restaurants), attractions/landmarks, and travel services, ensuring domain-specific model training.
+
+\section{Revised Project Question}
+
+Based on EDA insights, our refined question is: \textit{``Can we accurately classify tourism review sentiment (positive, neutral, negative) using review text alone, and what text features most predict customer satisfaction in tourism services?''} This addresses automated classification feasibility, key linguistic indicators, and real-time monitoring potential.
+
+\section{Baseline Model}
+
+\subsection{Architecture \& Configuration}
+
+We implemented \textbf{Logistic Regression} as baseline: Multinomial algorithm, SAGA solver (large dataset optimization), 100 iterations, parallel processing (all cores), 10,000 TF-IDF features.
+
+\subsection{Performance}
+
+Results on held-out test set:\\
+\textbf{Model Accuracy:} 0.8788583997579605 [87.88\%]
+
+\begin{table}[H]
+\centering
+\caption{Baseline Model Performance Metrics}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Class} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\ \midrule
+Negative & 0.84 & 0.88 & 0.86 & 321892 \\
+Neutral & 0.55 & 0.31 & 0.40 & 138156 \\
+Positive & 0.92 & 0.96 & 0.94 & 934766 \\ \midrule
+\textbf{Accuracy} & \multicolumn{4}{c}{\textbf{To be computed}} \\
+\textbf{Macro Avg} & 0.77 & 0.72 & 0.73 & 1394814 \\
+\textbf{Weighted Avg} & 0.86 & 0.88 & 0.87 & 1394814 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Model Interpretation}
+
+The logistic regression baseline provides several advantages:
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item \textbf{Interpretability}: Coefficient weights reveal which terms most strongly predict each sentiment class.
+    \item \textbf{Efficiency}: Fast training and prediction times suitable for large datasets.
+    \item \textbf{Probabilistic Output}: Provides confidence scores for each prediction via \texttt{predict\_proba}.
+    \item \textbf{Benchmark}: Establishes performance baseline for comparison with more complex models.
+\end{itemize}
+
+\subsection{Misclassification Analysis}
+
+Initial error analysis indicates:
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Confusion primarily occurs between neutral and positive/negative classes.
+    \item Neutral sentiment is most challenging to classify due to ambiguous language.
+    \item Very short reviews may lack sufficient contextual information for accurate classification.
+\end{itemize}
+\end{document}
