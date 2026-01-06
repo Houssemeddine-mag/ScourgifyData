@@ -394,6 +394,104 @@
   color: #00d4ff;
 }
 
+/* Technical Details Section */
+.technical-toggle {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.technical-btn {
+  padding: 0.75rem 1.5rem;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: #00d4ff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.technical-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: var(--primary);
+  transform: translateX(2px);
+}
+
+.technical-details {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(124, 58, 237, 0.05);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 8px;
+  animation: slideIn 0.3s ease;
+}
+
+.technical-details h4 {
+  color: #a78bfa;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.technical-details h4:first-child {
+  margin-top: 0;
+}
+
+.technical-details p {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.technical-details ul {
+  list-style: none;
+  margin-left: 1rem;
+}
+
+.technical-details li {
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.technical-details li:before {
+  content: "→";
+  color: #a78bfa;
+  margin-right: 0.75rem;
+  font-weight: bold;
+}
+
+.technical-details pre {
+  background: rgba(15, 23, 42, 0.8);
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 212, 255, 0.1);
+  color: #cbd5e1;
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+/* Model Comparison Note */
+.model-comparison-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(0, 212, 255, 0.05);
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.model-comparison-note strong {
+  color: #00d4ff;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .tester-container {
@@ -419,5 +517,9 @@
 
   .prediction-details ul {
     grid-template-columns: 1fr;
+  }
+
+  .technical-details {
+    font-size: 0.9rem;
   }
 }

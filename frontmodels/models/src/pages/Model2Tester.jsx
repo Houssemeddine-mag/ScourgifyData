@@ -7,6 +7,7 @@ export default function Model2Tester() {
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showArchitecture, setShowArchitecture] = useState(false);
 
   const sentiments = {
     0: { label: "Negative", color: "#ff6b6b", icon: "😞" },
@@ -48,7 +49,7 @@ export default function Model2Tester() {
   const exampleReviews = [
     "The resort was breathtaking! Every detail was perfect, from the stunning views to the exceptional service. Will definitely come back!",
     "The stay was fine. Food was okay, rooms were clean, but nothing particularly memorable.",
-    "Terrible experience. The place was not clean, staff was unhelpful, and way too expensive for what we got.",
+    "Absolutely dreadful and a complete waste of money. Filthy rooms, rude and dismissive staff, terrible food. This was the worst hotel experience of my life and I would never recommend it to anyone.",
   ];
 
   return (
@@ -57,8 +58,9 @@ export default function Model2Tester() {
         <div className="badge badge-deep">Model 2</div>
         <h1>Bidirectional LSTM Model</h1>
         <p className="model-description">
-          Advanced deep learning model trained on balanced data. Understands
-          context and nuance better.
+          Advanced deep learning model using BiLSTM architecture. Trained on
+          balanced (upsampled) data. Understands context, word sequences, and
+          directional relationships for superior sentiment prediction.
         </p>
       </div>
 
@@ -137,35 +139,93 @@ export default function Model2Tester() {
               </div>
 
               <div className="prediction-details">
-                <h3>Model Details:</h3>
+                <h3>Model Architecture:</h3>
                 <ul>
                   <li>
-                    <strong>Algorithm:</strong> BiLSTM (Local Model)
+                    <strong>Algorithm:</strong> Bidirectional LSTM (BiLSTM)
                   </li>
                   <li>
-                    <strong>Execution:</strong> Browser-based (TensorFlow.js)
+                    <strong>Embedding Layer:</strong> 128-dimensional embeddings
                   </li>
                   <li>
-                    <strong>Training Data:</strong> ~160+ balanced tourism
-                    reviews
+                    <strong>LSTM Units:</strong> Bidirectional (forward +
+                    backward)
                   </li>
                   <li>
-                    <strong>Approach:</strong> Deep learning with contextual
-                    understanding
+                    <strong>Context Window:</strong> Full sequence understanding
+                  </li>
+                  <li>
+                    <strong>Training Data:</strong> ~160 balanced Yelp reviews
+                    (upsampled)
+                  </li>
+                  <li>
+                    <strong>Execution:</strong> TensorFlow.js (browser-based)
+                  </li>
+                  <li>
+                    <strong>Advantage:</strong> Captures bidirectional context &
+                    word order
+                  </li>
+                  <li>
+                    <strong>Tokens Processed:</strong>{" "}
+                    {prediction.details.tokens}
                   </li>
                   <li>
                     <strong>Processing Time:</strong>{" "}
                     {prediction.details.processingTime}
                   </li>
-                  <li>
-                    <strong>Tokens:</strong> {prediction.details.tokens}
-                  </li>
                   {prediction.usingFallback && (
                     <li style={{ color: "#ff9800" }}>
-                      <strong>⚠ Using fallback:</strong> Keyword-based analysis
+                      <strong>⚠ Note:</strong> Backend model unavailable - using
+                      keyword approximation
                     </li>
                   )}
                 </ul>
+
+                <div className="technical-toggle">
+                  <button
+                    className="technical-btn"
+                    onClick={() => setShowArchitecture(!showArchitecture)}
+                  >
+                    {showArchitecture ? "Hide" : "Show"} Architecture Details
+                  </button>
+                </div>
+
+                {showArchitecture && (
+                  <div className="technical-details">
+                    <h4>BiLSTM Architecture:</h4>
+                    <pre style={{ fontSize: "0.85em", overflow: "auto" }}>
+                      {`Input Text
+    ↓
+Tokenization
+    ↓
+Embedding Layer (128D)
+    ↓
+BiLSTM Forward Pass →
+BiLSTM Backward Pass ←
+    ↓
+Concatenated Hidden States
+    ↓
+Dense Layer (3 classes)
+    ↓
+Softmax Output (0-2)`}
+                    </pre>
+                    <h4>Why Bidirectional?</h4>
+                    <p>
+                      BiLSTM processes sequences both forward and backward,
+                      allowing the model to understand how context on both sides
+                      of a word affects sentiment. For example, "NOT good"
+                      requires backward context understanding.
+                    </p>
+                    <h4>Data Balancing Strategy:</h4>
+                    <ul style={{ fontSize: "0.9em" }}>
+                      <li>Identified class imbalance in original data</li>
+                      <li>Applied upsampling to minority classes</li>
+                      <li>Achieved balanced distribution for training</li>
+                      <li>80-20 train-test split on balanced data</li>
+                      <li>Reduced model bias vs. Model 1</li>
+                    </ul>
+                  </div>
+                )}
               </div>
 
               <div className="input-preview">
@@ -181,11 +241,17 @@ export default function Model2Tester() {
         <h3>About This Model</h3>
         <p>
           <strong>Model 2 - Bidirectional LSTM:</strong> Our advanced deep
-          learning sentiment classifier with BiLSTM architecture. Runs entirely
-          in your browser using TensorFlow.js. Understands context, nuance, and
-          negation better than traditional approaches. Your data never leaves
-          your device!
+          learning sentiment classifier using BiLSTM architecture. Trained on
+          balanced (upsampled) Yelp tourism review data with 128-dimensional
+          embeddings. Runs entirely in your browser using TensorFlow.js - your
+          data never leaves your device! Understands context, word order, and
+          handles negation better than traditional bag-of-words approaches.
         </p>
+        <div className="model-comparison-note">
+          <strong>🔄 Data Difference:</strong> Unlike Model 1 (imbalanced data),
+          Model 2 trained on upsampled balanced data, reducing class bias and
+          improving minority class prediction accuracy.
+        </div>
       </div>
     </div>
   );

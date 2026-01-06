@@ -7,6 +7,7 @@ export default function Model1Tester() {
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showTechnical, setShowTechnical] = useState(false);
 
   const sentiments = {
     0: { label: "Negative", color: "#ff6b6b", icon: "😞" },
@@ -135,28 +136,74 @@ export default function Model1Tester() {
               </div>
 
               <div className="prediction-details">
-                <h3>Model Details:</h3>
+                <h3>Model Architecture:</h3>
                 <ul>
                   <li>
                     <strong>Algorithm:</strong> Logistic Regression
                   </li>
                   <li>
-                    <strong>Feature Extraction:</strong> TF-IDF
+                    <strong>Feature Extraction:</strong> TF-IDF Vectorization
                   </li>
                   <li>
-                    <strong>Training Data:</strong> ~160+ tourism reviews
+                    <strong>Feature Dimensions:</strong> 10,000 features
                   </li>
                   <li>
-                    <strong>Approach:</strong> Classical ML with text
-                    vectorization
+                    <strong>Bigrams:</strong> Enabled (word pairs)
+                  </li>
+                  <li>
+                    <strong>Training Data:</strong> ~160 imbalanced Yelp tourism
+                    reviews
+                  </li>
+                  <li>
+                    <strong>Approach:</strong> Classical ML - Fast &
+                    Interpretable
+                  </li>
+                  <li>
+                    <strong>Execution:</strong> Keyword-based approximation
+                    (fallback mode)
                   </li>
                   {prediction.usingFallback && (
                     <li style={{ color: "#ff9800" }}>
-                      <strong>⚠ Using fallback:</strong> Keyword-based analysis
-                      (backend unavailable)
+                      <strong>⚠ Note:</strong> Backend model unavailable - using
+                      keyword analysis
                     </li>
                   )}
                 </ul>
+
+                <div className="technical-toggle">
+                  <button
+                    className="technical-btn"
+                    onClick={() => setShowTechnical(!showTechnical)}
+                  >
+                    {showTechnical ? "Hide" : "Show"} Technical Details
+                  </button>
+                </div>
+
+                {showTechnical && (
+                  <div className="technical-details">
+                    <h4>How TF-IDF Works:</h4>
+                    <p>
+                      TF-IDF (Term Frequency-Inverse Document Frequency)
+                      measures word importance by combining how often a word
+                      appears in a document with how rare it is across the
+                      corpus.
+                    </p>
+                    <h4>Feature Engineering Process:</h4>
+                    <ul style={{ fontSize: "0.9em" }}>
+                      <li>Tokenize review text into words</li>
+                      <li>Create bigrams (2-word sequences)</li>
+                      <li>Calculate TF scores per word</li>
+                      <li>Apply IDF weighting</li>
+                      <li>Generate 10,000-dimensional feature vector</li>
+                    </ul>
+                    <h4>Why Imbalanced Data Matters:</h4>
+                    <p>
+                      Training on imbalanced data (more positive reviews) can
+                      bias the model. This is why Model 2 uses upsampling for
+                      balanced training.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="input-preview">
@@ -172,11 +219,17 @@ export default function Model1Tester() {
         <h3>About This Model</h3>
         <p>
           <strong>Model 1 - Logistic Regression:</strong> Our baseline sentiment
-          classifier trained on merged tourism business and review datasets. It
-          uses TF-IDF feature extraction and logistic regression for fast,
-          interpretable predictions. Perfect for understanding baseline
-          performance and identifying areas for improvement.
+          classifier trained on imbalanced Yelp tourism review data. Uses TF-IDF
+          feature extraction (10,000 dimensions with bigrams enabled) and
+          logistic regression for fast, interpretable predictions. Perfect for
+          understanding baseline performance and comparing against advanced deep
+          learning approaches.
         </p>
+        <div className="model-comparison-note">
+          <strong>📊 Compare with Model 2:</strong> Model 2 uses BiLSTM on
+          balanced (upsampled) data for better contextual understanding and
+          reduced bias.
+        </div>
       </div>
     </div>
   );

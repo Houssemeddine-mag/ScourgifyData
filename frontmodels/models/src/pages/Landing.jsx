@@ -150,9 +150,7 @@ export default function Landing({ onNavigate }) {
                 <div className="detail-box">
                   <h4>🔗 Tourism Filtering & Merge</h4>
                   <ul>
-                    <li>Filter businesses: tourism-related categories</li>
                     <li>Left join: Review ← Business (on business_id)</li>
-                    <li>Result: Only tourism review corpus</li>
                     <li>Initial dataset: ~7 million reviews</li>
                   </ul>
                 </div>
