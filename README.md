@@ -1,6 +1,28 @@
 # Sentiment Analysis in Tourism Platforms
 
-This repository contains all code, data, analysis, and documentation for sentiment analysis on tourism review datasets.
+A project focused on performing sentiment analysis on tourism review datasets to extract insights about customer opinions, business performance, and check‑in patterns. The work spans data collection, cleaning, exploratory analysis, model training (two model versions), evaluation, and visualization/reporting.
+
+---
+
+## 👥 Team & Responsibilities
+
+| Team Member | Focus area |
+|------------|------------|
+| **Nada** | User & business datasets |
+| **Houssem** | Reviews dataset (EDA + cleaning) |
+| **Redouane** | Review & check‑in datasets |
+
+---
+
+## 🎯 What We Worked On
+
+| Phase | Deliverables |
+|-------|--------------|
+| **Data collection & EDA** | Gathered tourism review datasets, performed initial exploration |
+| **Cleaning & transformation** | Built preprocessing scripts, handled missing values, text cleaning, feature engineering |
+| **ML modeling** | Developed two model versions: a logistic regression model (`src/1er model/sentiment_logreg_model.pkl`) and a Keras deep‑learning model (`src/2eme model/2eme model/sentiment_model.keras`) |
+| **Evaluation** | Computed performance metrics, generated reports and visualizations |
+| **Visualization & reporting** | Created charts, word clouds, and a final project report (PDF) |
 
 ---
 
@@ -8,101 +30,26 @@ This repository contains all code, data, analysis, and documentation for sentime
 
 ```
 sentiment-tourism-project/
-├── data/
-│   ├── BisnessDataSetLastVersion1.ipynb
-│   ├── Business.ipynb
-│   ├── clean_model_dataset.ipynb
-│   ├── Datasets used.txt
-│   └── README.md
-├── docs/
-│   ├── report/
-│   ├── Site web portfolio du projet.txt
-│   ├── 1er rapport.pdf
-│   └── rapport_final_Scorgify (2).pdf
-├── results/
-│   └── visualizations/
-├── src/
-│   ├── 1er model/
-│   │   ├── clean_dataset_joined.ipynb
-│   │   ├── sentiment_logreg_model.pkl
-│   │   └── testing_model01.ipynb
-│   │   └── tfidf_vectorizer.pkl
-│   ├── 2eme model/
-│   │   ├── 2eme model/
-│   │   │   ├── model training.ipynb
-│   │   │   ├── sentiment_model.keras
-│   │   │   └── testing_model02.ipynb
-│   │   └── removing imbalance/
-│   │       └── dataset_model_upsampling.ipynb
-│   └── Part 1.pdf
-│   └── Part 2.pdf
+├── .samcode/              # OpenCode configuration & vector DB
+├── data/                  # Raw datasets & notebooks
+├── docs/                  # Reports & planning documents
+├── results/visualizations/ # Generated charts & graphs
+├── src/                   # Source code & trained models
+│   ├── 1er model/         # First model (logreg + pickles)
+│   └── 2eme model/        # Second model (Keras + training notebooks)
 ├── .gitignore
-├── requirements.txt
-└── README.md
+├── requirements.txt       # Python dependencies
+└── README.md              # This file
 ```
 
 ---
 
-## 📊 Dataset Sources
+## 🚀 Getting Started
 
-| Dataset                                   | Description                   | Team Contributor |
-| ----------------------------------------- | ----------------------------- | ---------------- |
-| `data/BisnessDataSetLastVersion1.ipynb` | Business dataset with reviews | ?                |
-| `data/Business.ipynb`                   | Tourism business data         | ?                |
-| `data/redouane.ipynb`                   | Check‑in + review dataset    | Redouane         |
-| `data/clean_model_dataset.ipynb`        | Empty notebook (placeholder)  |                  |
+1. **Install dependencies**: `pip install -r requirements.txt`
+2. **Open the notebooks** in `data/` for exploration or `src/` for model training/evaluation.
+3. **Run the notebooks** sequentially to reproduce the pipeline from data cleaning to model training.
 
 ---
 
-## 🗂️ Project Phases Covered by Folder Organization
-
-| Phase                     | Folder                                    | Description                                             |
-| ------------------------- | ----------------------------------------- | ------------------------------------------------------- |
-| Data collection & EDA     | `data/`                                 | Raw notebooks & dataset descriptions                    |
-| Cleaning & transformation | `src/`                                  | Scripts, models, notebooks for preprocessing & training |
-| Visualization & reporting | `docs/` and `results/visualizations/` | PDFs, reports, and visual outputs                       |
-
----
-
-## 📁 Key Directories
-
-### `.samcode/`
-
-Configuration and vector database for OpenCode.
-
-### `data/`
-
-All raw datasets and exploratory notebooks. Contains placeholder notebooks ready for data cleaning and integration.
-
-### `docs/`
-
-Project documentation, reports, and planning files.
-
-### `results/visualizations/`
-
-Generated visualizations and charts from analysis.
-
-### `src/`
-
-Production‑ready code:
-
-- **`1er model/`**: First model version – notebooks, pickles, and trained models.
-- **`2eme model/`**: Second model version – Keras model + training scripts.
-
-### `src/2eme model/2eme model/`
-
-Contains the core Keras sentiment‑analysis model (`sentiment_model.keras`), training notebook, and evaluation notebook.
-
----
-
-## 📝 Notes
-
-- **Large files** (e.g., `sentiment_model.keras`, PDFs) are stored in the repository but may exceed typical GitHub limits. Consider using Git LFS for future large files.
-- All notebooks are documented with inline comments and descriptions.
-- The codebase is organized for reproducibility and teamwork.
-- For development, ensure dependencies from `requirements.txt` are installed.
-- Keep `.gitignore` up‑to‑date to exclude sensitive data or large assets.
-
----
-
-*📅 Updated after recent repository restructuring.*
+*📅 Updated to separate description from formal documentation.*
