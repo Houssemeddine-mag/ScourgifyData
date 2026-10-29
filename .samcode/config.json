@@ -1,0 +1,10 @@
+{
+  "provider": "openrouter",
+  "model": "openrouter/free",
+  "api_key": "",
+  "custom_base_url": "",
+  "caveman_mode": 0,
+  "frontend_mode": false,
+  "data_mode": false,
+  "teacher_mode": false
+}

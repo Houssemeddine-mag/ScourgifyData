@@ -1,0 +1,17 @@
+The datasets used had been uploaded in kaggle to avoid downloading them, and for better vue in checking the data (from kaggle directly).
+
+- Dataset of the first model trained (baseline):
+https://www.kaggle.com/datasets/houssemag1/1st-model-dataset-imbalanced
+
+
+- Dataset upsampled (imbalance removed) : 
+https://www.kaggle.com/datasets/houssemag1/dataset-after-upsampmling
+
+
+- Half of the dataset upsampled
+https://www.kaggle.com/datasets/houssemag1/half1dataset
+
+
+- Datasets train/validation of the upsampled dataset (half1)
+Train: https://www.kaggle.com/datasets/houssemag1/training
+Validation : https://www.kaggle.com/datasets/houssemag1/training-datasets
