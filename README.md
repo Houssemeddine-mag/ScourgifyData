@@ -8,9 +8,6 @@ This repository contains all code, data, analysis, and documentation for sentime
 
 ```
 sentiment-tourism-project/
-├── .samcode/
-│   ├── config.json
-│   └── vector_db/chroma.sqlite3
 ├── data/
 │   ├── BisnessDataSetLastVersion1.ipynb
 │   ├── Business.ipynb
@@ -48,45 +45,52 @@ sentiment-tourism-project/
 
 ## 📊 Dataset Sources
 
-| Dataset | Description | Team Contributor |
-|---------|-------------|------------------|
-| `data/BisnessDataSetLastVersion1.ipynb` | Business dataset with reviews | ? |
-| `data/Business.ipynb` | Tourism business data | ? |
-| `data/redouane.ipynb` | Check‑in + review dataset | Redouane |
-| `data/clean_model_dataset.ipynb` | Empty notebook (placeholder) |
+| Dataset                                   | Description                   | Team Contributor |
+| ----------------------------------------- | ----------------------------- | ---------------- |
+| `data/BisnessDataSetLastVersion1.ipynb` | Business dataset with reviews | ?                |
+| `data/Business.ipynb`                   | Tourism business data         | ?                |
+| `data/redouane.ipynb`                   | Check‑in + review dataset    | Redouane         |
+| `data/clean_model_dataset.ipynb`        | Empty notebook (placeholder)  |                  |
 
 ---
 
 ## 🗂️ Project Phases Covered by Folder Organization
 
-| Phase | Folder | Description |
-|-------|--------|-------------|
-| Data collection & EDA | `data/` | Raw notebooks & dataset descriptions |
-| Cleaning & transformation | `src/` | Scripts, models, notebooks for preprocessing & training |
-| Visualization & reporting | `docs/` and `results/visualizations/` | PDFs, reports, and visual outputs |
+| Phase                     | Folder                                    | Description                                             |
+| ------------------------- | ----------------------------------------- | ------------------------------------------------------- |
+| Data collection & EDA     | `data/`                                 | Raw notebooks & dataset descriptions                    |
+| Cleaning & transformation | `src/`                                  | Scripts, models, notebooks for preprocessing & training |
+| Visualization & reporting | `docs/` and `results/visualizations/` | PDFs, reports, and visual outputs                       |
 
 ---
 
 ## 📁 Key Directories
 
 ### `.samcode/`
+
 Configuration and vector database for OpenCode.
 
 ### `data/`
+
 All raw datasets and exploratory notebooks. Contains placeholder notebooks ready for data cleaning and integration.
 
 ### `docs/`
+
 Project documentation, reports, and planning files.
 
 ### `results/visualizations/`
+
 Generated visualizations and charts from analysis.
 
 ### `src/`
+
 Production‑ready code:
+
 - **`1er model/`**: First model version – notebooks, pickles, and trained models.
 - **`2eme model/`**: Second model version – Keras model + training scripts.
 
 ### `src/2eme model/2eme model/`
+
 Contains the core Keras sentiment‑analysis model (`sentiment_model.keras`), training notebook, and evaluation notebook.
 
 ---
